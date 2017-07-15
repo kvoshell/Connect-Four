@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connect Four</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel='stylesheet' type="text/css" href='main.css'>
+</head>
+
+<body>
+
+  <div class='container-fluid'>
+
+    <nav class='navbar'>
+      <div class='title'>
+        <h1>Connect Four</h1>
+      </div>
+    </nav>
+
+    <hr class='divider'>
+
+    <div class='row'>
+      <div class='col-md-offset-2 col-md-8 game-board'>
+        <table class='board'></table>
+      </div>
+    </div>
+
+    <hr class='divider'>
+
+    <div class='row game-info'>
+      <h2 class='game-message'></h2>
+      <h2 id='total-moves'></h2>
+    </div>
+
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src='c4.js'></script>
+
+</body>
+</html>
