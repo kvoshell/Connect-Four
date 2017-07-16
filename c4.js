@@ -83,7 +83,8 @@ $(document).ready(function() {
       // slot is full, prevent overflow
       if ($(gameSlot).hasClass('taken')) {
 
-        if (slotToCheck <= 7) {
+        if (slotToCheck <= 14) {
+            slotToCheck -= 7;
             buttonToDisable = (parseInt(slotToCheck) + 42);
             $ ('#' + buttonToDisable).prop('disabled', true).css({ 'border' : 'none', 'color' : 'white' });
         } else
@@ -93,21 +94,19 @@ $(document).ready(function() {
       } else {
 
         if (playerTurn == 1) {
+
             $(gameSlot).css('background-color', 'blue').addClass('taken player-one');
             $('.game-message').html("Player Two's Turn").css('color', 'red');
+            if (checkForWinningPlay($(gameSlot), playerTurn)) { endGame('player-one'); }
 
-            if (checkForWinningPlay($(gameSlot))) {
-              endGame('player-one');
-            }
             break;
 
         } else {
+
             $(gameSlot).css('background-color', 'red').addClass('taken player-two');
             $('.game-message').html("Player One's Turn").css('color', 'blue');
+            if (checkForWinningPlay($(gameSlot), playerTurn)) { endGame('player-two'); }
 
-            if (checkForWinningPlay($(gameSlot))) {
-              endGame('player-two');
-            }
             break;
         }
       }
@@ -115,7 +114,8 @@ $(document).ready(function() {
   }
 
 
-  function checkForWinningPlay(gameSlot) {
+  function checkForWinningPlay(gameSlot, player) {
+    console.log(player);
 
     let pieceToCheck = parseInt(gameSlot[0].id);
 
@@ -152,127 +152,164 @@ $(document).ready(function() {
     const thirdPieceAboveLeft   = pieceToCheck - 24;
 
 
-    // Upper Left of Grid
-    if ((pieceToCheck >= 1 && pieceToCheck <= 3) || (pieceToCheck >= 8 && pieceToCheck <= 10) || (pieceToCheck >= 15 && pieceToCheck <= 17)) {
+    if (player === 1) {
 
-      if (($('#' + firstPieceRight).hasClass('taken player-one') && $('#' + secondPieceRight).hasClass('taken player-one') && $('#' + thirdPieceRight).hasClass('taken player-one')) ||
-          ($('#' + firstPieceBelow).hasClass('taken player-one') && $('#' + secondPieceBelow).hasClass('taken player-one') && $('#' + thirdPieceBelow).hasClass('taken player-one')) ||
-          ($('#' + firstPieceBelowRight).hasClass('taken player-one') && $('#' + secondPieceBelowRight).hasClass('taken player-one') && $('#' + thirdPieceBelowRight).hasClass('taken player-one'))) {
+      // Upper Left of Grid
+      if ((pieceToCheck >= 1 && pieceToCheck <= 3) || (pieceToCheck >= 8 && pieceToCheck <= 10) || (pieceToCheck >= 15 && pieceToCheck <= 17)) {
 
-            return true;
+        if (($('#' + firstPieceRight).hasClass('taken player-one') && $('#' + secondPieceRight).hasClass('taken player-one') && $('#' + thirdPieceRight).hasClass('taken player-one')) ||
+            ($('#' + firstPieceBelow).hasClass('taken player-one') && $('#' + secondPieceBelow).hasClass('taken player-one') && $('#' + thirdPieceBelow).hasClass('taken player-one')) ||
+            ($('#' + firstPieceBelowRight).hasClass('taken player-one') && $('#' + secondPieceBelowRight).hasClass('taken player-one') && $('#' + thirdPieceBelowRight).hasClass('taken player-one'))) {
 
-      } else if (($('#' + firstPieceRight).hasClass('taken player-two') && $('#' + secondPieceRight).hasClass('taken player-two') && $('#' + thirdPieceRight).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceBelow).hasClass('taken player-two') && $('#' + secondPieceBelow).hasClass('taken player-two') && $('#' + thirdPieceBelow).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceBelowRight).hasClass('taken player-two') && $('#' + secondPieceBelowRight).hasClass('taken player-two') && $('#' + thirdPieceBelowRight).hasClass('taken player-two'))) {
+              return true;
+        }
+      }
 
-            return true;
+      // Upper Middle of Grid
+      if (pieceToCheck === 4 || pieceToCheck === 11 || pieceToCheck === 18) {
+
+        if (($('#' + firstPieceRight).hasClass('taken player-one') && $('#' + secondPieceRight).hasClass('taken player-one') && $('#' + thirdPieceRight).hasClass('taken player-one')) ||
+            ($('#' + firstPieceLeft).hasClass('taken player-one') && $('#' + secondPieceLeft).hasClass('taken player-one') && $('#' + thirdPieceLeft).hasClass('taken player-one')) ||
+            ($('#' + firstPieceBelowLeft).hasClass('taken player-one') && $('#' + secondPieceBelowLeft).hasClass('taken player-one') && $('#' + thirdPieceBelowLeft).hasClass('taken player-one')) ||
+            ($('#' + firstPieceBelowRight).hasClass('taken player-one') && $('#' + secondPieceBelowRight).hasClass('taken player-one') && $('#' + thirdPieceBelowRight).hasClass('taken player-one')) ||
+          ($('#' + firstPieceBelow).hasClass('taken player-one') && $('#' + secondPieceBelow).hasClass('taken player-one') && $('#' + thirdPieceBelow).hasClass('taken player-one'))) {
+
+              return true;
+        }
+      }
+
+      // Upper Right of Grid
+      if((pieceToCheck >= 5 && pieceToCheck <= 7) || (pieceToCheck >= 12 && pieceToCheck <= 14) || (pieceToCheck >= 19 && pieceToCheck <= 21)) {
+
+        if (($('#' + firstPieceLeft).hasClass('taken player-one') && $('#' + secondPieceLeft).hasClass('taken player-one') && $('#' + thirdPieceLeft).hasClass('taken player-one')) ||
+            ($('#' + firstPieceBelow ).hasClass('taken player-one') && $('#' + secondPieceBelow).hasClass('taken player-one') && $('#' + thirdPieceBelow).hasClass('taken player-one')) ||
+            ($('#' + firstPieceBelowLeft).hasClass('taken player-one') && $('#' + secondPieceBelowLeft).hasClass('taken player-one') && $('#' + thirdPieceBelowLeft).hasClass('taken player-one'))) {
+
+              return true;
+        }
+      }
+
+      // Lower Left of Grid
+      if ((pieceToCheck >= 22 && pieceToCheck <= 24) || (pieceToCheck >= 29 && pieceToCheck <= 31) || (pieceToCheck >= 36 && pieceToCheck <= 38)) {
+
+        if (($('#' + firstPieceRight).hasClass('taken player-one') && $('#' + secondPieceRight).hasClass('taken player-one') && $('#' + thirdPieceRight).hasClass('taken player-one')) ||
+            ($('#' + firstPieceAbove).hasClass('taken player-one') && $('#' + secondPieceAbove).hasClass('taken player-one') && $('#' + thirdPieceAbove).hasClass('taken player-one')) ||
+            ($('#' + firstPieceAboveRight).hasClass('taken player-one') && $('#' + secondPieceAboveRight).hasClass('taken player-one') && $('#' + thirdPieceAboveRight).hasClass('taken player-one'))) {
+
+              return true;
+        }
+      }
+
+      // Lower Middle of Grid
+      if (pieceToCheck === 25 || pieceToCheck === 32 || pieceToCheck === 39) {
+
+        if (($('#' + firstPieceRight).hasClass('taken player-one') && $('#' + secondPieceRight).hasClass('taken player-one') && $('#' + thirdPieceRight).hasClass('taken player-one')) ||
+            ($('#' + firstPieceLeft).hasClass('taken player-one') && $('#' + secondPieceLeft).hasClass('taken player-one') && $('#' + thirdPieceLeft).hasClass('taken player-one')) ||
+            ($('#' + firstPieceAboveRight).hasClass('taken player-one') && $('#' + secondPieceAboveRight).hasClass('taken player-one') && $('#' + thirdPieceAboveRight).hasClass('taken player-one')) ||
+            ($('#' + firstPieceAboveLeft).hasClass('taken player-one') && $('#' + secondPieceAboveLeft).hasClass('taken player-one') && $('#' + thirdPieceAboveLeft).hasClass('taken player-one'))) {
+
+              return true;
+
+        }
+      }
+
+      // Lower Right of Grid
+      if ((pieceToCheck >= 26 && pieceToCheck <= 28) || (pieceToCheck >= 33 && pieceToCheck <= 35) || (pieceToCheck >= 40 && pieceToCheck <= 42)) {
+
+        if (($('#' + firstPieceLeft).hasClass('taken player-one') && $('#' + secondPieceLeft).hasClass('taken player-one') && $('#' + thirdPieceLeft).hasClass('taken player-one')) ||
+            ($('#' + firstPieceAbove).hasClass('taken player-one') && $('#' + secondPieceAbove).hasClass('taken player-one') && $('#' + thirdPieceAbove).hasClass('taken player-one')) ||
+            ($('#' + firstPieceAboveLeft).hasClass('taken player-one') && $('#' + secondPieceAboveLeft).hasClass('taken player-one') && $('#' + thirdPieceAboveLeft).hasClass('taken player-one'))) {
+
+              return true;
+        }
       }
     }
 
+    else if (player === 2) {
 
-    // Upper Middle of Grid
-    if (pieceToCheck === 4 || pieceToCheck === 11 || pieceToCheck === 18) {
+      // Upper Left of Grid
+      if ((pieceToCheck >= 1 && pieceToCheck <= 3) || (pieceToCheck >= 8 && pieceToCheck <= 10) || (pieceToCheck >= 15 && pieceToCheck <= 17)) {
 
-      if (($('#' + firstPieceRight).hasClass('taken player-one') && $('#' + secondPieceRight).hasClass('taken player-one') && $('#' + thirdPieceRight).hasClass('taken player-one')) ||
-          ($('#' + firstPieceLeft).hasClass('taken player-one') && $('#' + secondPieceLeft).hasClass('taken player-one') && $('#' + thirdPieceLeft).hasClass('taken player-one')) ||
-          ($('#' + firstPieceBelowLeft).hasClass('taken player-one') && $('#' + secondPieceBelowLeft).hasClass('taken player-one') && $('#' + thirdPieceBelowLeft).hasClass('taken player-one')) ||
-          ($('#' + firstPieceBelowRight).hasClass('taken player-one') && $('#' + secondPieceBelowRight).hasClass('taken player-one') && $('#' + thirdPieceBelowRight).hasClass('taken player-one'))) {
+        if (($('#' + firstPieceRight).hasClass('taken player-two') && $('#' + secondPieceRight).hasClass('taken player-two') && $('#' + thirdPieceRight).hasClass('taken player-two')) ||
+            ($('#' + firstPieceBelow).hasClass('taken player-two') && $('#' + secondPieceBelow).hasClass('taken player-two') && $('#' + thirdPieceBelow).hasClass('taken player-two')) ||
+            ($('#' + firstPieceBelowRight).hasClass('taken player-two') && $('#' + secondPieceBelowRight).hasClass('taken player-two') && $('#' + thirdPieceBelowRight).hasClass('taken player-two'))) {
 
-            return true;
-
-      } else if (($('#' + firstPieceRight).hasClass('taken player-two') && $('#' + secondPieceRight).hasClass('taken player-two') && $('#' + thirdPieceRight).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceLeft).hasClass('taken player-two') && $('#' + secondPieceLeft).hasClass('taken player-two') && $('#' + thirdPieceLeft).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceBelowLeft).hasClass('taken player-two') && $('#' + secondPieceBelowLeft).hasClass('taken player-two') && $('#' + thirdPieceBelowLeft).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceBelowRight).hasClass('taken player-two') && $('#' + secondPieceBelowRight).hasClass('taken player-two') && $('#' + thirdPieceBelowRight).hasClass('taken player-two'))) {
-
-            return true;
+              return true;
+        }
       }
-    }
 
+      // Upper Middle of Grid
+      if (pieceToCheck === 4 || pieceToCheck === 11 || pieceToCheck === 18) {
 
-    // Upper Right of Grid
-    if((pieceToCheck >= 5 && pieceToCheck <= 7) || (pieceToCheck >= 12 && pieceToCheck <= 14) || (pieceToCheck >= 19 && pieceToCheck <= 21)) {
+        if (($('#' + firstPieceRight).hasClass('taken player-two') && $('#' + secondPieceRight).hasClass('taken player-two') && $('#' + thirdPieceRight).hasClass('taken player-two')) ||
+            ($('#' + firstPieceLeft).hasClass('taken player-two') && $('#' + secondPieceLeft).hasClass('taken player-two') && $('#' + thirdPieceLeft).hasClass('taken player-two')) ||
+            ($('#' + firstPieceBelowLeft).hasClass('taken player-two') && $('#' + secondPieceBelowLeft).hasClass('taken player-two') && $('#' + thirdPieceBelowLeft).hasClass('taken player-two')) ||
+            ($('#' + firstPieceBelowRight).hasClass('taken player-two') && $('#' + secondPieceBelowRight).hasClass('taken player-two') && $('#' + thirdPieceBelowRight).hasClass('taken player-two')) ||
+            ($('#' + firstPieceBelow).hasClass('taken player-two') && $('#' + secondPieceBelow).hasClass('taken player-two') && $('#' + thirdPieceBelow).hasClass('taken player-two'))) {
 
-      if (($('#' + firstPieceLeft).hasClass('taken player-one') && $('#' + secondPieceLeft).hasClass('taken player-one') && $('#' + thirdPieceLeft).hasClass('taken player-one')) ||
-          ($('#' + firstPieceBelow ).hasClass('taken player-one') && $('#' + secondPieceBelow).hasClass('taken player-one') && $('#' + thirdPieceBelow).hasClass('taken player-one')) ||
-          ($('#' + firstPieceBelowLeft).hasClass('taken player-one') && $('#' + secondPieceBelowLeft).hasClass('taken player-one') && $('#' + thirdPieceBelowLeft).hasClass('taken player-one'))) {
-
-            return true;
-
-      } else if (($('#' + firstPieceLeft).hasClass('taken player-two') && $('#' + secondPieceLeft).hasClass('taken player-two') && $('#' + thirdPieceLeft).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceBelow ).hasClass('taken player-two') && $('#' + secondPieceBelow).hasClass('taken player-two') && $('#' + thirdPieceBelow).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceBelowLeft).hasClass('taken player-two') && $('#' + secondPieceBelowLeft).hasClass('taken player-two') && $('#' + thirdPieceBelowLeft).hasClass('taken player-two'))) {
-
-            return true;
+              return true;
+        }
       }
-    }
 
+      // Upper Right of Grid
+      if((pieceToCheck >= 5 && pieceToCheck <= 7) || (pieceToCheck >= 12 && pieceToCheck <= 14) || (pieceToCheck >= 19 && pieceToCheck <= 21)) {
 
-    // Lower Left of Grid
-    if ((pieceToCheck >= 22 && pieceToCheck <= 24) || (pieceToCheck >= 29 && pieceToCheck <= 31) || (pieceToCheck >= 36 && pieceToCheck <= 38)) {
+        if (($('#' + firstPieceLeft).hasClass('taken player-two') && $('#' + secondPieceLeft).hasClass('taken player-two') && $('#' + thirdPieceLeft).hasClass('taken player-two')) ||
+            ($('#' + firstPieceBelow ).hasClass('taken player-two') && $('#' + secondPieceBelow).hasClass('taken player-two') && $('#' + thirdPieceBelow).hasClass('taken player-two')) ||
+            ($('#' + firstPieceBelowLeft).hasClass('taken player-two') && $('#' + secondPieceBelowLeft).hasClass('taken player-two') && $('#' + thirdPieceBelowLeft).hasClass('taken player-two'))) {
 
-      if (($('#' + firstPieceRight).hasClass('taken player-one') && $('#' + secondPieceRight).hasClass('taken player-one') && $('#' + thirdPieceRight).hasClass('taken player-one')) ||
-          ($('#' + firstPieceAbove).hasClass('taken player-one') && $('#' + secondPieceAbove).hasClass('taken player-one') && $('#' + thirdPieceAbove).hasClass('taken player-one')) ||
-          ($('#' + firstPieceAboveRight).hasClass('taken player-one') && $('#' + secondPieceAboveRight).hasClass('taken player-one') && $('#' + thirdPieceAboveRight).hasClass('taken player-one'))) {
-
-            return true;
-
-      } else if (($('#' + firstPieceRight).hasClass('taken player-two') && $('#' + secondPieceRight).hasClass('taken player-two') && $('#' + thirdPieceRight).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceAbove).hasClass('taken player-two') && $('#' + secondPieceAbove).hasClass('taken player-two') && $('#' + thirdPieceAbove).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceAboveRight).hasClass('taken player-two') && $('#' + secondPieceAboveRight).hasClass('taken player-two') && $('#' + thirdPieceAboveRight).hasClass('taken player-two'))) {
-
-            return true;
+              return true;
+        }
       }
-    }
 
+      // Lower Left of Grid
+      if ((pieceToCheck >= 22 && pieceToCheck <= 24) || (pieceToCheck >= 29 && pieceToCheck <= 31) || (pieceToCheck >= 36 && pieceToCheck <= 38)) {
 
-    // Lower Middle of Grid
-    if (pieceToCheck === 25 || pieceToCheck === 32 || pieceToCheck === 39) {
+        if (($('#' + firstPieceRight).hasClass('taken player-two') && $('#' + secondPieceRight).hasClass('taken player-two') && $('#' + thirdPieceRight).hasClass('taken player-two')) ||
+            ($('#' + firstPieceAbove).hasClass('taken player-two') && $('#' + secondPieceAbove).hasClass('taken player-two') && $('#' + thirdPieceAbove).hasClass('taken player-two')) ||
+            ($('#' + firstPieceAboveRight).hasClass('taken player-two') && $('#' + secondPieceAboveRight).hasClass('taken player-two') && $('#' + thirdPieceAboveRight).hasClass('taken player-two'))) {
 
-      if (($('#' + firstPieceRight).hasClass('taken player-one') && $('#' + secondPieceRight).hasClass('taken player-one') && $('#' + thirdPieceRight).hasClass('taken player-one')) ||
-          ($('#' + firstPieceLeft).hasClass('taken player-one') && $('#' + secondPieceLeft).hasClass('taken player-one') && $('#' + thirdPieceLeft).hasClass('taken player-one')) ||
-          ($('#' + firstPieceAboveRight).hasClass('taken player-one') && $('#' + secondPieceAboveRight).hasClass('taken player-one') && $('#' + thirdPieceAboveRight).hasClass('taken player-one')) ||
-          ($('#' + firstPieceAboveLeft).hasClass('taken player-one') && $('#' + secondPieceAboveLeft).hasClass('taken player-one') && $('#' + thirdPieceAboveLeft).hasClass('taken player-one'))) {
-
-            return true;
-
-      } else if (($('#' + firstPieceRight).hasClass('taken player-two') && $('#' + secondPieceRight).hasClass('taken player-two') && $('#' + thirdPieceRight).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceLeft).hasClass('taken player-two') && $('#' + secondPieceLeft).hasClass('taken player-two') && $('#' + thirdPieceLeft).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceAboveRight).hasClass('taken player-two') && $('#' + secondPieceAboveRight).hasClass('taken player-two') && $('#' + thirdPieceAboveRight).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceAboveLeft).hasClass('taken player-two') && $('#' + secondPieceAboveLeft).hasClass('taken player-two') && $('#' + thirdPieceAboveLeft).hasClass('taken player-two'))) {
-
-            return true;
+              return true;
+        }
       }
-    }
 
 
-    // Lower Right of Grid
-    if ((pieceToCheck >= 26 && pieceToCheck <= 28) || (pieceToCheck >= 33 && pieceToCheck <= 35) || (pieceToCheck >= 40 && pieceToCheck <= 42)) {
+      // Lower Middle of Grid
+      if (pieceToCheck === 25 || pieceToCheck === 32 || pieceToCheck === 39) {
 
-      if (($('#' + firstPieceLeft).hasClass('taken player-one') && $('#' + secondPieceLeft).hasClass('taken player-one') && $('#' + thirdPieceLeft).hasClass('taken player-one')) ||
-          ($('#' + firstPieceAbove).hasClass('taken player-one') && $('#' + secondPieceAbove).hasClass('taken player-one') && $('#' + thirdPieceAbove).hasClass('taken player-one')) ||
-          ($('#' + firstPieceAboveLeft).hasClass('taken player-one') && $('#' + secondPieceAboveLeft).hasClass('taken player-one') && $('#' + thirdPieceAboveLeft).hasClass('taken player-one'))) {
 
-            return true;
+        if (($('#' + firstPieceRight).hasClass('taken player-two') && $('#' + secondPieceRight).hasClass('taken player-two') && $('#' + thirdPieceRight).hasClass('taken player-two')) ||
+            ($('#' + firstPieceLeft).hasClass('taken player-two') && $('#' + secondPieceLeft).hasClass('taken player-two') && $('#' + thirdPieceLeft).hasClass('taken player-two')) ||
+            ($('#' + firstPieceAboveRight).hasClass('taken player-two') && $('#' + secondPieceAboveRight).hasClass('taken player-two') && $('#' + thirdPieceAboveRight).hasClass('taken player-two')) ||
+            ($('#' + firstPieceAboveLeft).hasClass('taken player-two') && $('#' + secondPieceAboveLeft).hasClass('taken player-two') && $('#' + thirdPieceAboveLeft).hasClass('taken player-two'))) {
 
-      } else if (($('#' + firstPieceLeft).hasClass('taken player-two') && $('#' + secondPieceLeft).hasClass('taken player-two') && $('#' + thirdPieceLeft).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceAbove).hasClass('taken player-two') && $('#' + secondPieceAbove).hasClass('taken player-two') && $('#' + thirdPieceAbove).hasClass('taken player-two')) ||
-                 ($('#' + firstPieceAboveLeft).hasClass('taken player-two') && $('#' + secondPieceAboveLeft).hasClass('taken player-two') && $('#' + thirdPieceAboveLeft).hasClass('taken player-two'))) {
-
-            return true;
+              return true;
+        }
       }
-    }
+
+      // Lower Right of Grid
+      if ((pieceToCheck >= 26 && pieceToCheck <= 28) || (pieceToCheck >= 33 && pieceToCheck <= 35) || (pieceToCheck >= 40 && pieceToCheck <= 42)) {
+
+        if (($('#' + firstPieceLeft).hasClass('taken player-two') && $('#' + secondPieceLeft).hasClass('taken player-two') && $('#' + thirdPieceLeft).hasClass('taken player-two')) ||
+            ($('#' + firstPieceAbove).hasClass('taken player-two') && $('#' + secondPieceAbove).hasClass('taken player-two') && $('#' + thirdPieceAbove).hasClass('taken player-two')) ||
+            ($('#' + firstPieceAboveLeft).hasClass('taken player-two') && $('#' + secondPieceAboveLeft).hasClass('taken player-two') && $('#' + thirdPieceAboveLeft).hasClass('taken player-two'))) {
+
+              return true;
+        }
+      }
     return false;
+    }
   }
+
 
 function endGame(player) {
 
   $('.btn').hide();
 
   if (player == 'player-one') {
-      $('.game-message').html("Player One Wins!");
+      $('.game-message').html("Player One Wins!").css('color', 'blue');
   } else if (player == 'player-two') {
-      $('.game-message').html("Player Two Wins!");
+      $('.game-message').html("Player Two Wins!").css('color', 'red');
   }
 
   let restartMessage = '<button class="btn restart-game">Play Again?</button>'
