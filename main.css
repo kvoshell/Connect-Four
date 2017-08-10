@@ -33,6 +33,15 @@ hr.divider {
   background-image: -o-linear-gradient(left, #f0f0f0, rgb(95, 77, 129), #f0f0f0);
 }
 
+.stripe {
+  width: 100vw;
+  height: 315px;
+  background-color: rgba(128, 177, 125, .7);
+  z-index: -100;
+  margin-top: 58px;
+  position: absolute;
+}
+
 .game-board {
   height: 460px;
 }
